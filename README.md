@@ -4,10 +4,11 @@
 
 * [PHP](https://www.php.net/manual/en/install.php)
 * [Composer](https://getcomposer.org/download/)
+* [MySQL](https://dev.mysql.com/downloads/)
 
 ## Installation Steps
 
 1. Clone repo
 2. Run `composer install`
-3. View the page your browser
-4. Log in with any credentials. The requested timestamp is logged to the console.
+3. Run `php -S localhost:8000`
+

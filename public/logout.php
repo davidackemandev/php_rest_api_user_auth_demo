@@ -6,7 +6,7 @@ header('Access-Control-Allow-Credentials: true');
 header('Access-Control-Allow-Methods: POST');
 header("Access-Control-Allow-Headers: X-Requested-With");
 
-require "./db_inc.php";
+require "../config/db_inc.php";
 require './account_class.php';
 
 session_set_cookie_params(['samesite' => 'None']);

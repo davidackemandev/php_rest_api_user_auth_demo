@@ -10,7 +10,7 @@ $postbody = json_decode(file_get_contents('php://input'), true);
 $postemail = $postbody["email"];
 $postpw = $postbody["password"];
 
-require "./db_inc.php";
+require "../config/db_inc.php";
 require './account_class.php';
 
 $account = new Account();

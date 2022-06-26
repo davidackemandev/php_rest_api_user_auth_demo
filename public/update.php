@@ -9,7 +9,7 @@ header("Access-Control-Allow-Headers: X-Requested-With");
 $postbody = json_decode(file_get_contents('php://input'), true);
 $postnotes = $postbody["notes"];
 
-require "./db_inc.php";
+require "../config/db_inc.php";
 require './account_class.php';
 
 $account = new Account();

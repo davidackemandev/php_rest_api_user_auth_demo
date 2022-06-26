@@ -1,20 +1,5 @@
 <?php
 
-/*
- * 	This class file can be downloaded from Alex Web Develop "PHP Login and Authentication Tutorial":
- * 	
- * 	https://alexwebdevelop.com/user-authentication/
- * 	
- * 	You are free to use and share this script as you like.
- * 	If you want to share it, please leave this disclaimer inside.
- * 	
- * 	Subscribe to my free newsletter and get my exclusive PHP tips and learning advice:
- * 	
- * 	https://alexwebdevelop.com/
- * 	
-*/
-
-
 class Account
 {
 	/* Class properties (variables) */
@@ -24,8 +9,6 @@ class Account
 	
 	/* The email of the logged in account (or NULL if there is no logged in account) */
 	private $email;
-
-	private $notes;
 	
 	/* TRUE if the user is authenticated, FALSE otherwise */
 	private $authenticated;
@@ -59,12 +42,6 @@ class Account
 	{
 		return $this->email;
 	}
-
-	/* "Getter" function for the $notes variable */
-	public function getNotes(): ?string
-	{
-		return $this->notes;
-	}
 	
 	/* "Getter" function for the $authenticated variable */
 	public function isAuthenticated(): bool
@@ -73,7 +50,7 @@ class Account
 	}
 	
 	/* Add a new account to the system and return its ID (the account_id column of the accounts table) */
-	public function addAccount(string $email, string $passwd, string $notes): int
+	public function addAccount(string $email, string $passwd): int
 	{
 		/* Global $pdo object */
 		global $pdo;
@@ -103,13 +80,13 @@ class Account
 		/* Finally, add the new account */
 		
 		/* Insert query template */
-		$query = 'INSERT INTO notevdij_srv2.accounts (account_email, account_passwd, account_enabled, account_notes) VALUES (:email, :passwd, 1, :notes)';
+		$query = 'INSERT INTO accounts (account_email, account_passwd, account_enabled) VALUES (:email, :passwd, 1)';
 		
 		/* Password hash */
 		$hash = password_hash($passwd, PASSWORD_DEFAULT);
 		
 		/* Values array for PDO */
-		$values = array(':email' => $email, ':passwd' => $hash, ':notes' => $notes);
+		$values = array(':email' => $email, ':passwd' => $hash);
 		
 		/* Execute the query */
 		try
@@ -120,7 +97,7 @@ class Account
 		catch (PDOException $e)
 		{
 		   /* If there is a PDO exception, throw a standard exception */
-		   throw new Exception('Database query error');
+		   throw new Exception(print_r($e));
 		}
 		
 		/* Return the new ID */
@@ -140,7 +117,7 @@ class Account
 		}
 		
 		/* Query template */
-		$query = 'DELETE FROM notevdij_srv2.accounts WHERE (account_id = :id)';
+		$query = 'DELETE FROM accounts WHERE (account_id = :id)';
 		
 		/* Values array for PDO */
 		$values = array(':id' => $id);
@@ -154,11 +131,11 @@ class Account
 		catch (PDOException $e)
 		{
 		   /* If there is a PDO exception, throw a standard exception */
-		   throw new Exception('Database query error');
+		   throw new Exception('Database query error - delete account');
 		}
 		
 		/* Delete the Sessions related to the account */
-		$query = 'DELETE FROM notevdij_srv2.account_sessions WHERE (account_id = :id)';
+		$query = 'DELETE FROM account_sessions WHERE (account_id = :id)';
 		
 		/* Values array for PDO */
 		$values = array(':id' => $id);
@@ -172,7 +149,7 @@ class Account
 		catch (PDOException $e)
 		{
 		   /* If there is a PDO exception, throw a standard exception */
-		   throw new Exception('Database query error');
+		   throw new Exception('Database query error - delete account 2');
 		}
 	}
 	
@@ -215,7 +192,7 @@ class Account
 		/* Finally, edit the account */
 		
 		/* Edit query template */
-		$query = 'UPDATE notevdij_srv2.accounts SET account_email = :email, account_passwd = :passwd, account_enabled = :enabled WHERE account_id = :id';
+		$query = 'UPDATE accounts SET account_email = :email, account_passwd = :passwd, account_enabled = :enabled WHERE account_id = :id';
 		
 		/* Password hash */
 		$hash = password_hash($passwd, PASSWORD_DEFAULT);
@@ -235,40 +212,7 @@ class Account
 		catch (PDOException $e)
 		{
 		   /* If there is a PDO exception, throw a standard exception */
-		   throw new Exception('Database query error');
-		}
-	}
-
-	/* Update notes */
-	public function updateNotes(int $id, string $notes)
-	{
-		/* Global $pdo object */
-		global $pdo;
-		
-		/* Check if the ID is valid */
-		if (!$this->isIdValid($id))
-		{
-			throw new Exception('Invalid account ID');
-		}
-		
-		/* Finally, edit the account */
-		
-		/* Edit query template */
-		$query = 'UPDATE notevdij_srv2.accounts SET account_notes = :notes WHERE account_id = :id';
-		
-		/* Values array for PDO */
-		$values = array(':notes' => $notes, ':id' => $id);
-		
-		/* Execute the query */
-		try
-		{
-			$res = $pdo->prepare($query);
-			$res->execute($values);
-		}
-		catch (PDOException $e)
-		{
-		   /* If there is a PDO exception, throw a standard exception */
-		   throw new Exception('Database query error');
+		   throw new Exception('Database query error - edit account');
 		}
 	}
 	
@@ -295,7 +239,7 @@ class Account
 		}
 		
 		/* Look for the account in the db. Note: the account must be enabled (account_enabled = 1) */
-		$query = 'SELECT * FROM notevdij_srv2.accounts WHERE (account_email = :email) AND (account_enabled = 1)';
+		$query = 'SELECT * FROM accounts WHERE (account_email = :email) AND (account_enabled = 1)';
 		
 		/* Values array for PDO */
 		$values = array(':email' => $email);
@@ -309,7 +253,7 @@ class Account
 		catch (PDOException $e)
 		{
 		   /* If there is a PDO exception, throw a standard exception */
-		   throw new Exception('Database query error');
+		   throw new Exception('Database query error - login');
 		}
 		
 		$row = $res->fetch(PDO::FETCH_ASSOC);
@@ -322,7 +266,6 @@ class Account
 				/* Authentication succeeded. Set the class properties (id and email) */
 				$this->id = intval($row['account_id'], 10);
 				$this->email = $email;
-				$this->notes = $row['account_notes'];
 				$this->authenticated = TRUE;
 				
 				/* Register the current Sessions on the database */
@@ -408,7 +351,7 @@ class Account
 			*/
 			$query = 
 			
-			'SELECT * FROM notevdij_srv2.account_sessions, notevdij_srv2.accounts WHERE (account_sessions.session_id = :sid) ' . 
+			'SELECT * FROM account_sessions, accounts WHERE (account_sessions.session_id = :sid) ' . 
 			'AND (account_sessions.login_time >= (NOW() - INTERVAL 7 DAY)) AND (account_sessions.account_id = accounts.account_id) ' . 
 			'AND (accounts.account_enabled = 1)';
 			
@@ -424,7 +367,7 @@ class Account
 			catch (PDOException $e)
 			{
 			   /* If there is a PDO exception, throw a standard exception */
-			   throw new Exception('Database query error');
+			   throw new Exception('Database query error - sessionlogin');
 			}
 			
 			$row = $res->fetch(PDO::FETCH_ASSOC);
@@ -434,7 +377,6 @@ class Account
 				/* Authentication succeeded. Set the class properties (id and email) and return TRUE*/
 				$this->id = intval($row['account_id'], 10);
 				$this->email = $row['account_email'];
-				$this->notes = $row['account_notes'];
 				$this->authenticated = TRUE;
 				
 				return TRUE;
@@ -466,7 +408,7 @@ class Account
 		if (session_status() == PHP_SESSION_ACTIVE)
 		{
 			/* Delete query */
-			$query = 'DELETE FROM notevdij_srv2.account_sessions WHERE (session_id = :sid)';
+			$query = 'DELETE FROM account_sessions WHERE (session_id = :sid)';
 			
 			/* Values array for PDO */
 			$values = array(':sid' => session_id());
@@ -480,7 +422,7 @@ class Account
 			catch (PDOException $e)
 			{
 			   /* If there is a PDO exception, throw a standard exception */
-			   throw new Exception('Database query error');
+			   throw new Exception('Database query error - logout');
 			}
 		}
 	}
@@ -501,7 +443,7 @@ class Account
 		if (session_status() == PHP_SESSION_ACTIVE)
 		{
 			/* Delete all account Sessions with session_id different from the current one */
-			$query = 'DELETE FROM notevdij_srv2.account_sessions WHERE (session_id != :sid) AND (account_id = :account_id)';
+			$query = 'DELETE FROM account_sessions WHERE (session_id != :sid) AND (account_id = :account_id)';
 			
 			/* Values array for PDO */
 			$values = array(':sid' => session_id(), ':account_id' => $this->id);
@@ -515,7 +457,7 @@ class Account
 			catch (PDOException $e)
 			{
 			   /* If there is a PDO exception, throw a standard exception */
-			   throw new Exception('Database query error');
+			   throw new Exception('Database query error - close other sessions');
 			}
 		}
 	}
@@ -536,7 +478,7 @@ class Account
 		$id = NULL;
 		
 		/* Search the ID on the database */
-		$query = 'SELECT account_id FROM notevdij_srv2.accounts WHERE (account_email = :email)';
+		$query = 'SELECT account_id FROM accounts WHERE (account_email = :email)';
 		$values = array(':email' => $email);
 		
 		try
@@ -547,7 +489,7 @@ class Account
 		catch (PDOException $e)
 		{
 		   /* If there is a PDO exception, throw a standard exception */
-		   throw new Exception('Database query error');
+		   throw new Exception('Database query error - getidfromemail');
 		}
 		
 		$row = $res->fetch(PDO::FETCH_ASSOC);
@@ -577,7 +519,7 @@ class Account
 				- insert a new row with the session id, if it doesn't exist, or...
 				- update the row having the session id, if it does exist.
 			*/
-			$query = 'REPLACE INTO notevdij_srv2.account_sessions (session_id, account_id, login_time) VALUES (:sid, :accountId, NOW())';
+			$query = 'REPLACE INTO account_sessions (session_id, account_id, login_time) VALUES (:sid, :accountId, NOW())';
 			$values = array(':sid' => session_id(), ':accountId' => $this->id);
 			
 			/* Execute the query */
@@ -589,7 +531,7 @@ class Account
 			catch (PDOException $e)
 			{
 			   /* If there is a PDO exception, throw a standard exception */
-			   throw new Exception('Database query error');
+			   throw new Exception('Database query error - registerloginsession');
 			}
 		}
 	}

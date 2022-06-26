@@ -26,7 +26,7 @@
 session_start();
 
 /* Include the database connection file (remember to change the connection parameters) */
-require './db_inc.php';
+require '../config/db_inc.php';
 
 /* Include the Account class file */
 require './account_class.php';

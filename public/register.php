@@ -9,11 +9,10 @@ header("Access-Control-Allow-Headers: X-Requested-With");
 $postbody = json_decode(file_get_contents('php://input'), true);
 $postemail = $postbody["email"];
 $postpw = $postbody["password"];
-$postnotes = $postbody["notes"];
 
-if (!isset($postemail) || !isset($postpw) || !isset($postnotes)) { exit("bad postdata"); }
+if (!isset($postemail) || !isset($postpw) ) { exit("bad postdata"); }
 
-require "./db_inc.php";
+require "../config/db_inc.php";
 require './account_class.php';
 
 $account = new Account();
@@ -21,7 +20,7 @@ $account = new Account();
 // Create the new account
 try
 {
-	$newId = $account->addAccount($postemail, $postpw, $postnotes);
+	$newId = $account->addAccount($postemail, $postpw);
 }
 catch (Exception $e)
 {

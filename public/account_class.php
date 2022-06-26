@@ -74,6 +74,7 @@ class Account
 		/* Check if an account having the same email already exists. If it does, throw an exception */
 		if (!is_null($this->getIdFromEmail($email)))
 		{
+			header('HTTP/1.1 500 Internal Server Error');
 			throw new Exception('Email already in use');
 		}
 		

@@ -46,7 +46,7 @@ catch (Exception $e)
 
 if ($login)
 {
-	$response = array('email' => $account->getEmail(), 'notes' =>$account->getNotes());
+	$response = array('email' => $account->getEmail());
 	echo json_encode($response);
 }
 else

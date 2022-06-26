@@ -1,0 +1,7 @@
+{
+    "require": {
+        "firebase/php-jwt": "^5.2",
+        "laminas/laminas-config": "^3.5.0",
+        "google/apiclient":"^2.0"
+    }
+}

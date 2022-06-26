@@ -1,0 +1,11 @@
+RewriteEngine On
+RewriteCond %{HTTP:Authorization} ^(.+)$
+RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization}]
+# php -- BEGIN cPanel-generated handler, do not edit
+# This domain inherits the “PHP” package.
+# php -- END cPanel-generated handler, do not edit
+
+php_value session.name "NOTEDBSESSION"
+php_value session.cookie_lifetime "604800"
+php_value session.cookie_secure "1"
+php_value session.cookie_httponly "0"

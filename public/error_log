@@ -1,0 +1,16 @@
+[15-May-2022 21:30:16 America/New_York] PHP Fatal error:  Uncaught TypeError: Account::updateNotes(): Argument #2 ($notes) must be of type string, array given, called in /home/notevdij/srv2.notedb.app/server/public/update.php on line 39 and defined in /home/notevdij/srv2.notedb.app/server/public/account_class.php:243
+Stack trace:
+#0 /home/notevdij/srv2.notedb.app/server/public/update.php(39): Account->updateNotes()
+#1 {main}
+  thrown in /home/notevdij/srv2.notedb.app/server/public/account_class.php on line 243
+[15-May-2022 21:36:56 America/New_York] PHP Fatal error:  Uncaught TypeError: Account::updateNotes(): Argument #2 ($notes) must be of type string, array given, called in /home/notevdij/srv2.notedb.app/server/public/update.php on line 39 and defined in /home/notevdij/srv2.notedb.app/server/public/account_class.php:243
+Stack trace:
+#0 /home/notevdij/srv2.notedb.app/server/public/update.php(39): Account->updateNotes()
+#1 {main}
+  thrown in /home/notevdij/srv2.notedb.app/server/public/account_class.php on line 243
+[15-May-2022 21:53:28 America/New_York] PHP Warning:  Trying to access array offset on value of type null in /home/notevdij/srv2.notedb.app/server/public/update.php on line 8
+[15-May-2022 21:53:28 America/New_York] PHP Fatal error:  Uncaught TypeError: Account::updateNotes(): Argument #2 ($notes) must be of type string, null given, called in /home/notevdij/srv2.notedb.app/server/public/update.php on line 39 and defined in /home/notevdij/srv2.notedb.app/server/public/account_class.php:243
+Stack trace:
+#0 /home/notevdij/srv2.notedb.app/server/public/update.php(39): Account->updateNotes()
+#1 {main}
+  thrown in /home/notevdij/srv2.notedb.app/server/public/account_class.php on line 243

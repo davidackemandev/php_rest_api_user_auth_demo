@@ -3,10 +3,9 @@ const authFormsWrap = document.querySelector('#authFormsWrap');
 const loggedInStatus = document.querySelector('#loggedInStatus');
 const loginForm = document.querySelector('#frmLogin');
 const registerForm = document.querySelector('#frmRegister');
-const btnGetResource = document.querySelector('#btnGetResource');
 const btnLogout = document.querySelector('#btnLogout');
 const btnUpdate = document.querySelector('#btnUpdate');
-
+console.log(registerForm);
 // DATA
 const userEmail = localStorage.getItem('useremail');
 
@@ -52,8 +51,8 @@ loginForm.addEventListener('submit', async (e) => {
       'Content-type': 'application/x-www-form-urlencoded; charset=UTF-8',
     },
     body: JSON.stringify({
-      email: loginForm.inputEmail.value,
-      password: loginForm.inputPassword.value,
+      email: loginForm.loginInputEmail.value,
+      password: loginForm.loginInputPassword.value,
     }),
   });
 
@@ -71,14 +70,15 @@ loginForm.addEventListener('submit', async (e) => {
 // register
 registerForm.addEventListener('submit', async (e) => {
   e.preventDefault();
+  console.log(e)
   fetch('/public/register.php', {
     method: 'POST',
     headers: {
       Accept: 'application/json',
     },
     body: JSON.stringify({
-      email: registerForm.inputEmail.value,
-      password: registerForm.inputPassword.value,
+      email: registerForm.registerInputEmail.value,
+      password: registerForm.registerInputPassword.value,
     }),
   })
     .then((res) => {

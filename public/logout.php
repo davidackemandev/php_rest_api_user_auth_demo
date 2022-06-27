@@ -9,7 +9,6 @@ header("Access-Control-Allow-Headers: X-Requested-With");
 require "../config/db_inc.php";
 require './account_class.php';
 
-session_set_cookie_params(['samesite' => 'None']);
 session_start();
 
 $account = new Account();
@@ -28,9 +27,9 @@ catch (Exception $e)
 $account->logout();
 
 // get rid of the cookie
-if (isset($_COOKIE['NOTEDBSESSION'])) {
-    unset($_COOKIE['NOTEDBSESSION']);
-    setcookie('NOTEDBSESSION', '', [
+if (isset($_COOKIE['PHPSESSID'])) {
+    unset($_COOKIE['PHPSESSID']);
+    setcookie('PHPSESSID', '', [
 		'expires' => time() - 3600, 
 		'path' => '/',
 		'secure' => true,

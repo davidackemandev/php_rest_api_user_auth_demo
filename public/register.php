@@ -29,7 +29,6 @@ catch (Exception $e)
 }
 
 // login the new account
-session_set_cookie_params(['samesite' => 'None']);
 session_start();
 
 $login = FALSE;

@@ -68,6 +68,7 @@ class Account
 		/* Check if the password is valid. If not, throw an exception */
 		if (!$this->isPasswdValid($passwd))
 		{
+			header('HTTP/1.1 500 Internal Server Error');
 			throw new Exception('Invalid password');
 		}
 		

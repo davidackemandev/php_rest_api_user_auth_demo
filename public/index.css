@@ -1,0 +1,65 @@
+body{
+    font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+form.authForm{
+    display: flex;
+    flex-direction: column;
+}
+
+form.authForm > input, form.authForm > label {
+    margin-bottom: 6px;
+}
+form.authForm > input{
+    padding: 6px;
+}
+form.authForm > label {
+    font-size: .8rem;
+}
+
+form.authForm > button {
+    margin-top: 6px;
+}
+
+.formsWrap{
+    display:flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 18px;
+}
+
+.formWrap{
+    width: 280px;
+    padding: 8px;
+    border: 1px solid rgba(55, 53, 47, 0.16);;
+    margin-bottom: 18px;
+}
+
+.formWrap > h2 {
+    margin-top: 0px;
+    margin-bottom: 6px;
+    text-align: center;
+}
+
+.formWrap > hr {
+    margin-top: 0px;
+}
+
+.line {
+    border-bottom: 1px solid rgba(55, 53, 47, 0.16);
+    margin: 8px 0px;
+    width: 100%;
+}
+
+#loggedInStatus{
+    display: none;
+}
+
+#loggedInStatus.loggedIn{
+    display: block;
+}
+
+#btnLogout{
+    display: none;
+}

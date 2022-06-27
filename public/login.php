@@ -16,7 +16,6 @@ require './account_class.php';
 $account = new Account();
 $login = FALSE;
 
-session_set_cookie_params(['samesite' => 'None']);
 session_start();
 
 // try login with session cookie
@@ -46,7 +45,7 @@ catch (Exception $e)
 // response
 if ($login)
 {
-	$response = array('email' => $account->getEmail(), 'notes' =>$account->getNotes());
+	$response = array('email' => $account->getEmail());
 	echo json_encode($response);
 }
 else

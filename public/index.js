@@ -1,5 +1,6 @@
 // ELEMENTS
 const authFormsWrap = document.querySelector('#authFormsWrap');
+const loggedInWrap = document.querySelector('#loggedInWrap');
 const loggedInStatus = document.querySelector('#loggedInStatus');
 const loginForm = document.querySelector('#frmLogin');
 const registerForm = document.querySelector('#frmRegister');
@@ -28,16 +29,14 @@ function isLoggedIn() {
 function logIn(userEmail) {
   localStorage.setItem('useremail', userEmail);
   authFormsWrap.style.display = 'none';
-  loggedInStatus.style.display = 'flex';
+  loggedInWrap.style.display = 'block';
   loggedInStatus.innerText = 'Logged in as: ' + userEmail;
-  btnLogout.style.display = 'block';
 }
 
 function logOut() {
   localStorage.removeItem('useremail');
   authFormsWrap.style.display = 'flex';
-  loggedInStatus.style.display = 'none';
-  btnLogout.style.display = 'none';
+  loggedInWrap.style.display = 'none';
 }
 
 // EVENTS
@@ -45,7 +44,7 @@ function logOut() {
 // login
 loginForm.addEventListener('submit', async (e) => {
   e.preventDefault();
-  const res = await fetch('./public/login.php', {
+  fetch('./public/login.php', {
     method: 'POST',
     headers: {
       'Content-type': 'application/x-www-form-urlencoded; charset=UTF-8',
@@ -54,17 +53,12 @@ loginForm.addEventListener('submit', async (e) => {
       email: loginForm.loginInputEmail.value,
       password: loginForm.loginInputPassword.value,
     }),
-  });
-
-  if (res.status >= 200 && res.status <= 299) {
-    const responsedata = await res.text();
-    const responsedatajson = JSON.parse(responsedata);
-    console.log(responsedatajson.notes);
-    storeJWT(responsedatajson.jwt);
-  } else {
-    // Handle errors
-    console.log(res.status, res.statusText);
-  }
+  }).then((res)=>{
+        if (!res.ok) throw new Error(res.status);
+        else return res.json();
+  }).then((res) => {
+    logIn(res.email);
+});;
 });
 
 // register

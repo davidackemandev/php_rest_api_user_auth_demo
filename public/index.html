@@ -9,7 +9,13 @@
 
   <body class="text-center">
     <main>
+      <div id="loggedInWrap">
+      <div class="loggedInMenuWrap">
       <div id="loggedInStatus"></div>
+      <button id="btnLogout">logout</button>
+      </div>
+      <textarea id="textEditor" name="textEditor" placeholder="Start writing..." rows="4" cols="50"></textarea>
+      </div>
       <div class="formsWrap" id="authFormsWrap">
         <div class="formWrap">
       <h2>Log in</h2>
@@ -63,7 +69,6 @@
       </form>
     </div>
     </div>
-      <button id="btnLogout">logout</button>
     </main>
     <script type="text/javascript" src="/public/index.js"></script>
   </body>

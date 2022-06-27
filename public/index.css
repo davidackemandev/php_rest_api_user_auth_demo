@@ -52,14 +52,12 @@ form.authForm > button {
     width: 100%;
 }
 
-#loggedInStatus{
-    display: none;
-}
-
 #loggedInStatus.loggedIn{
     display: block;
 }
 
-#btnLogout{
-    display: none;
+.loggedInMenuWrap{
+    display:flex;
+    align-items: center;;
+    height:40px;
 }

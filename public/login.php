@@ -50,7 +50,9 @@ if ($login)
 }
 else
 {
+	header('HTTP/1.1 500 Internal Server Error');
 	echo 'Authentication failed.';
+	die();
 }
 
 session_destroy();

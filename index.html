@@ -22,20 +22,38 @@
           rows="4"
           cols="50"
         ></textarea>
+        <h2>Account Settings</h2>
+        <h3>Change Email</h3>
+        <form class="authForm" id="newEmailForm">
+          <label for="newEmailInput">New email</label>
+          <input id="newEmailInput" type="email" placeholder="Enter new email"></input>
+          <button type="submit">Send verification code</button>
+        </form>
+        <h3>Change Password</h3>
+        <form class="authForm" id="newPasswordForm">
+          <label for="newPasswordInputOldPassword">Old password</label>
+          <input id="newPasswordInputOldPassword" type="password" placeholder="Enter old password..."></input>
+          <label for="newPasswordInputNewPassword">New password</label>
+          <input id="newPasswordInputNewPassword" type="password" placeholder="Enter new password..."></input>
+          <label for="newPasswordInputRepeatNewPassword">Repeat new password</label>
+          <input id="newPasswordInputRepeatNewPassword" type="password" placeholder="Repeat new password..."></input>
+          <button type="submit">Change password</button>
+        </form>
       </div>
       <div class="formsWrap" id="authFormsWrap">
         <div class="formWrap">
           <h2>Log in</h2>
           <div class="line"></div>
+          <div id="loginErrorWrap" class="errorWrap"></div>
           <form
             method="post"
             action="./public/login.php"
             id="frmLogin"
             class="authForm"
           >
-            <label for="inputEmail" class="visually-hidden">Email</label>
+            <label for="inputEmail">Email</label>
             <input
-              type="text"
+              type="email"
               id="loginInputEmail"
               class="inputEmail"
               placeholder="Enter your email address..."
@@ -57,6 +75,7 @@
         <div class="formWrap">
           <h2>Sign up</h2>
           <div class="line"></div>
+          <div id="registerErrorWrap" class="errorWrap"></div>
           <form
             method="post"
             action="./public/register.php"
@@ -65,7 +84,7 @@
           >
             <label for="inputEmail">Email</label>
             <input
-              type="text"
+              type="email"
               id="registerInputEmail"
               class="inputEmail"
               placeholder="Enter your email address..."

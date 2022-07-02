@@ -3,24 +3,25 @@ const authFormsWrap = document.querySelector('#authFormsWrap');
 const loggedInWrap = document.querySelector('#loggedInWrap');
 const loggedInStatus = document.querySelector('#loggedInStatus');
 const loginForm = document.querySelector('#frmLogin');
+const loginErrorWrap = document.querySelector('#loginErrorWrap');
 const registerForm = document.querySelector('#frmRegister');
+const registerErrorWrap = document.querySelector('#registerErrorWrap');
 const btnLogout = document.querySelector('#btnLogout');
 const btnUpdate = document.querySelector('#btnUpdate');
 
 // DATA
 const userEmail = localStorage.getItem('useremail');
 
-
-// #region FUNCTIONS 
+// #region FUNCTIONS
 
 // check if logged in localstorage
 function isLoggedIn() {
-    if (userEmail) {
-      return true;
-    } else {
-      return false;
-    }
-  };
+  if (userEmail) {
+    return true;
+  } else {
+    return false;
+  }
+}
 
 function logIn(userEmail) {
   localStorage.setItem('useremail', userEmail);
@@ -31,25 +32,25 @@ function logIn(userEmail) {
 
 function logOut() {
   fetch('./public/logout.php', {
-      method: 'POST',
-      headers: {
-        Accept: 'application/json',
-      },
-      credentials: 'include',
-      body: JSON.stringify({
-        email: userEmail
-      }),
-    }).then((res)=>{
-      localStorage.removeItem('useremail');
-      authFormsWrap.style.display = 'flex';
-      loggedInWrap.style.display = 'none';
-    })
+    method: 'POST',
+    headers: {
+      Accept: 'application/json',
+    },
+    credentials: 'include',
+    body: JSON.stringify({
+      email: userEmail,
+    }),
+  }).then((res) => {
+    localStorage.removeItem('useremail');
+    authFormsWrap.style.display = 'flex';
+    loggedInWrap.style.display = 'none';
+  });
 }
 // #endregion
 
 // #region EVENTS
 // on init
-if(isLoggedIn()){
+if (isLoggedIn()) {
   logIn(userEmail);
 }
 
@@ -65,18 +66,28 @@ loginForm.addEventListener('submit', async (e) => {
       email: loginForm.loginInputEmail.value,
       password: loginForm.loginInputPassword.value,
     }),
-  }).then((res)=>{
-        if (!res.ok) throw new Error(res.status);
-        else return res.json();
-  }).then((res) => {
-    logIn(res.email);
-});;
+  })
+    .then((res) => {
+      if (!res.ok) {
+        return res.text().then((text) => {
+          throw new Error(text);
+        });
+      } else {
+        return res.json();
+      }
+    })
+    .then((res) => {
+      loginErrorWrap.innerText = '';
+      logIn(res.email);
+    })
+    .catch((error) => {
+      loginErrorWrap.innerText = error.message;
+    });
 });
 
 // register form submit
 registerForm.addEventListener('submit', async (e) => {
   e.preventDefault();
-  console.log(e)
   fetch('/public/register.php', {
     method: 'POST',
     headers: {
@@ -88,11 +99,20 @@ registerForm.addEventListener('submit', async (e) => {
     }),
   })
     .then((res) => {
-      if (!res.ok) throw new Error(res.status);
-      else return res.json();
+      if (!res.ok) {
+        return res.text().then((text) => {
+          throw new Error(text);
+        });
+      } else {
+        return res.json();
+      }
     })
     .then((res) => {
-        logIn(res.email);
+      registerErrorWrap.innerText = '';
+      logIn(res.email);
+    })
+    .catch((error) => {
+      registerErrorWrap.innerText = error.message;
     });
 });
 

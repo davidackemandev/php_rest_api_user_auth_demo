@@ -28,7 +28,7 @@ catch (Exception $e)
 	die();
 }
 
-// login the new account
+// If registration is successful login the new account
 session_start();
 
 $login = FALSE;

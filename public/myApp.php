@@ -1,28 +1,5 @@
 <?php
 
-/*
- * 	This example script can be downloaded from Alex Web Develop "PHP Login and Authentication Tutorial":
- * 	
- * 	https://alexwebdevelop.com/user-authentication/
- * 	
- * 	You are free to use and share this script as you like.
- * 	If you share it, please leave this disclaimer inside.
- * 	
- * 	Subscribe to my free newsletter and get my exclusive PHP tips and learning advice:
- * 	
- * 	https://alexwebdevelop.com/
- * 	
-*/
-
-
-
-/*	Start the Session, required for Session-based authentication.
-	Remeber to call session_start() before sending any output to the remote client.
-	Also, make sure to set a proper session cookie lifetime in your php.ini.
-	
-	For example, this sets the cookie lifetime to 7 days:
-	session.cookie_lifetime=604800
-*/
 session_start();
 
 /* Include the database connection file (remember to change the connection parameters) */

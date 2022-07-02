@@ -76,3 +76,7 @@ form.authForm > button {
 button#btnLogout{
     margin-left: auto;
 }
+
+.errorWrap{
+    color: #ff0000;
+}

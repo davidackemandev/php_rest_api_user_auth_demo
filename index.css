@@ -21,6 +21,13 @@ form.authForm > button {
     margin-top: 6px;
 }
 
+.mainWrap{
+    display:flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
 .formsWrap{
     display:flex;
     flex-direction: column;
@@ -60,4 +67,12 @@ form.authForm > button {
     display:flex;
     align-items: center;;
     height:40px;
+}
+
+#loggedInWrap{
+    display: none;
+}
+
+button#btnLogout{
+    margin-left: auto;
 }

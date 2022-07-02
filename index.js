@@ -6,15 +6,12 @@ const loginForm = document.querySelector('#frmLogin');
 const registerForm = document.querySelector('#frmRegister');
 const btnLogout = document.querySelector('#btnLogout');
 const btnUpdate = document.querySelector('#btnUpdate');
-console.log(registerForm);
+
 // DATA
 const userEmail = localStorage.getItem('useremail');
 
-if(isLoggedIn()){
-    logIn(userEmail);
-}
 
-// FUNCTIONS
+// #region FUNCTIONS 
 
 // check if logged in localstorage
 function isLoggedIn() {
@@ -25,7 +22,6 @@ function isLoggedIn() {
     }
   };
 
-// update isLoggedIn
 function logIn(userEmail) {
   localStorage.setItem('useremail', userEmail);
   authFormsWrap.style.display = 'none';
@@ -38,8 +34,13 @@ function logOut() {
   authFormsWrap.style.display = 'flex';
   loggedInWrap.style.display = 'none';
 }
+// #endregion
 
-// EVENTS
+// #region EVENTS
+// on init
+if(isLoggedIn()){
+  logIn(userEmail);
+}
 
 // login
 loginForm.addEventListener('submit', async (e) => {
@@ -92,3 +93,5 @@ btnLogout.addEventListener('click', async (e) => {
     logOut();
   });
 });
+
+// #endregion

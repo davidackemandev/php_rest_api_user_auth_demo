@@ -30,9 +30,20 @@ function logIn(userEmail) {
 }
 
 function logOut() {
-  localStorage.removeItem('useremail');
-  authFormsWrap.style.display = 'flex';
-  loggedInWrap.style.display = 'none';
+  fetch('./public/logout.php', {
+      method: 'POST',
+      headers: {
+        Accept: 'application/json',
+      },
+      credentials: 'include',
+      body: JSON.stringify({
+        email: userEmail
+      }),
+    }).then((res)=>{
+      localStorage.removeItem('useremail');
+      authFormsWrap.style.display = 'flex';
+      loggedInWrap.style.display = 'none';
+    })
 }
 // #endregion
 
@@ -42,7 +53,7 @@ if(isLoggedIn()){
   logIn(userEmail);
 }
 
-// login
+// login form submit
 loginForm.addEventListener('submit', async (e) => {
   e.preventDefault();
   fetch('./public/login.php', {
@@ -62,7 +73,7 @@ loginForm.addEventListener('submit', async (e) => {
 });;
 });
 
-// register
+// register form submit
 registerForm.addEventListener('submit', async (e) => {
   e.preventDefault();
   console.log(e)
